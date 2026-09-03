@@ -26,3 +26,33 @@ export const createUser = async (request: Request, response: Response, next: Nex
         next(err)
     }
 }
+
+export const updateUser = async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const existingUser = await userModel.User.findById(request.params.id);
+        if (!existingUser) {
+            return response.status(404).json({ success: false, message: "User not found" });
+        }
+        const { name, email, phone, password } = request.body;
+        const updatedUser = await userModel.User.findByIdAndUpdate(
+            request.params.id,
+            { name, email, phone, password },   
+            { new: true }
+        );
+        response.status(200).json({ success: true, data: updatedUser });
+    }
+    catch (err) {
+        next(err);
+    }
+}
+
+export const deleteUser = async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const existingUser = await userModel.User.findById(request.params.id);
+        if (!existingUser) {
+            return response.status(404).json({ success: false, message: "User not found" });
+        }
+    } catch (err) {
+        next(err);
+    }
+}
