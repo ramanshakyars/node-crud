@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import userRoutes from "./routes/user.routes";
+import authRoutes from "./routes/auth.routes";
 import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use(errorHandler);
 
